@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.spring.dao.RoleMapper">
+    <!-- 角色插入操作 -->
+    <insert id="add" parameterType="com.example.spring.entity.Role">
+		insert into sys_role(id,name) values(#{id},#{name})
+	</insert>
+    <!-- 角色信息模糊分页搜索查询 -->
+    <select id="findList" parameterType="Map" resultType="com.example.spring.entity.Role">
+        select * from sys_role
+        <if test="name != null">
+            where name like '%${name}%'
+        </if>
+        <if test="offset != null and pageSize != null">
+            limit #{offset},#{pageSize}
+        </if>
+    </select>
+    <!-- 角色信息模糊分页搜索查询总记录数 -->
+    <select id="getTotal" parameterType="Map" resultType="Integer">
+        select count(*) from sys_role
+        <if test="name != null">
+            where name like '%${name}%'
+        </if>
+    </select>
+    <!-- 根据id获取角色 -->
+    <select id="find" parameterType="Long" resultType="com.example.spring.entity.Role">
+		select * from sys_role where id = #{id}
+	</select>
+    <!-- 修改角色信息 -->
+    <update id="edit" parameterType="com.example.spring.entity.Role">
+		update sys_role set name = #{name} where id = #{id}
+	</update>
+    <!-- 删除角色信息 -->
+    <delete id="delete" parameterType="Long">
+		delete from sys_role where id = #{id}
+	</delete>
+</mapper>
